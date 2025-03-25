@@ -2,9 +2,9 @@
   "name": "nodejs",
    "version": "1.0.0",
   "description": "simple pairing code example",
-  "main": "index.js",
+  "main": "backend.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node backend.js"
   },
   "author": "",
   "dependencies": {
