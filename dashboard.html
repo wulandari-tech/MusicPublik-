@@ -18,100 +18,130 @@
         <button onclick="uploadMusic()">Upload</button>
     </div>
 
+    <div id="notification"></div> <!-- Notifikasi akan muncul di sini -->
+
+    <div id="musicList"></div> <!-- Daftar musik -->
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-    const musicList = document.getElementById("musicList");
+            const musicList = document.getElementById("musicList");
 
-    fetch('https://anonim-wanz-production.up.railway.app/api/music')
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(music => {
-                const card = document.createElement("div");
-                card.classList.add("card");
+            fetch('https://anonim-wanz-production.up.railway.app/api/music')
+                .then(response => response.json())
+                .then(data => {
+                    musicList.innerHTML = ""; // Bersihkan sebelum menambah
 
-                card.innerHTML = `
-                    <img src="${music.cover}" alt="Cover">
-                    <h2>${music.title}</h2>
-                    <audio controls src="${music.url}"></audio>
-                    <button onclick="deleteMusic('${music.title}')">Hapus</button>
-                `;
+                    data.forEach(music => {
+                        const card = document.createElement("div");
+                        card.classList.add("card");
 
-                musicList.appendChild(card);
+                        card.innerHTML = `
+                            <img src="${music.cover}" alt="Cover">
+                            <h2>${music.title}</h2>
+                            <audio controls src="${music.url}"></audio>
+                            <button onclick="deleteMusic('${music.title}')">Hapus</button>
+                        `;
+
+                        musicList.appendChild(card);
+                    });
+                })
+                .catch(error => showNotification("Gagal mengambil daftar musik!", "error"));
+        });
+
+        async function uploadMusic() {
+            const title = document.getElementById("title").value;
+            const coverFile = document.getElementById("cover").files[0];
+            const musicUrl = document.getElementById("musicUrl").value;
+
+            if (!title || !musicUrl) {
+                showNotification("Judul dan URL lagu harus diisi!", "error");
+                return;
+            }
+
+            const toBase64 = file => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
             });
-        })
-        .catch(error => console.error('Error:', error));
-});
 
-async function uploadMusic() {
-    const title = document.getElementById("title").value;
-    const coverFile = document.getElementById("cover").files[0];
-    const musicUrl = document.getElementById("musicUrl").value;
+            try {
+                const coverBase64 = coverFile ? await toBase64(coverFile) : null;
 
-    if (!title || !musicUrl) {
-        alert("Judul dan URL lagu harus diisi!");
-        return;
-    }
+                const response = await fetch('https://anonim-wanz-production.up.railway.app/api/music', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: title,
+                        cover: coverBase64,
+                        url: musicUrl
+                    })
+                });
 
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
-
-    try {
-        const coverBase64 = coverFile ? await toBase64(coverFile) : null;
-
-        const response = await fetch('https://anonim-wanz-production.up.railway.app/api/music', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title: title,
-                cover: coverBase64,
-                url: musicUrl
-            })
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            alert(result.message);
-            window.location.reload();
-        } else {
-            const errorData = await response.json();
-            alert("Error: " + errorData.message)
+                if (response.ok) {
+                    const result = await response.json();
+                    showNotification(result.message, "success");
+                    setTimeout(() => window.location.reload(), 2000); // Reload setelah notifikasi ditampilkan
+                } else {
+                    const errorData = await response.json();
+                    showNotification("Error: " + errorData.message, "error");
+                }
+            } catch (error) {
+                showNotification('Terjadi kesalahan saat mengunggah musik.', "error");
+            }
         }
 
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan saat mengunggah musik.');
-    }
-}
+        async function deleteMusic(title) {
+            if (!confirm(`Apakah Anda yakin ingin menghapus musik "${title}"?`)) {
+                return;
+            }
 
-async function deleteMusic(title) {
-    if (!confirm(`Apakah Anda yakin ingin menghapus musik "${title}"?`)) {
-        return;
-    }
+            try {
+                const response = await fetch(`https://anonim-wanz-production.up.railway.app/api/music/${title}`, {
+                    method: 'DELETE',
+                });
 
-    try {
-        const response = await fetch(`https://anonim-wanz-production.up.railway.app/api/music/${title}`, {
-            method: 'DELETE',
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            alert(result.message);
-            window.location.reload();
-        } else {
-            const errorData = await response.json();
-             alert("Error: " + errorData.message);
+                if (response.ok) {
+                    const result = await response.json();
+                    showNotification(result.message, "success");
+                    setTimeout(() => window.location.reload(), 2000);
+                } else {
+                    const errorData = await response.json();
+                    showNotification("Error: " + errorData.message, "error");
+                }
+            } catch (error) {
+                showNotification('Terjadi kesalahan saat menghapus musik.', "error");
+            }
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan saat menghapus musik.');
-    }
-}
+
+        function showNotification(message, type) {
+            const notification = document.getElementById("notification");
+            notification.innerHTML = message;
+            notification.className = type; // Menyesuaikan styling berdasarkan tipe
+            setTimeout(() => notification.innerHTML = "", 3000);
+        }
     </script>
+
+    <style>
+        #notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            display: inline-block;
+            font-weight: bold;
+        }
+        .success {
+            background-color: green;
+        }
+        .error {
+            background-color: red;
+        }
+    </style>
 </body>
 </html>
