@@ -79,7 +79,17 @@ app.get('/', (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
+app.get('/dash', (req, res) => {
+    try {
+        const indexPath = path.join(__dirname, 'dashboard.html');
+        const htmlContent = fs.readFileSync(indexPath, 'utf8');
+        res.send(htmlContent);
+    } catch (err) {
+        console.error("Error serving index.html:", err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+    
 app.listen(port, () => {
     console.log(`Server berjalan di http://localhost:${port}`);
 });
