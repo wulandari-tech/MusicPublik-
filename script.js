@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const musicList = document.getElementById("musicList");
 
-    fetch('http://localhost:3000/api/music')
+    fetch('https://anonim-wanz-production.up.railway.app/api/music')
         .then(response => response.json())
         .then(data => {
             data.forEach(music => {
@@ -41,7 +41,7 @@ async function uploadMusic() {
     try {
         const coverBase64 = coverFile ? await toBase64(coverFile) : null;
 
-        const response = await fetch('http://localhost:3000/api/music', {
+        const response = await fetch('https://anonim-wanz-production.up.railway.app/api/music', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
