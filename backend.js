@@ -69,27 +69,16 @@ app.delete('/api/music/:title', (req, res) => {
     }
 });
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', (req, res) => {
-    try {
-        const indexPath = path.join(__dirname, 'index.html');
-        const htmlContent = fs.readFileSync(indexPath, 'utf8');
-        res.send(htmlContent);
-    } catch (err) {
-        console.error("Error serving index.html:", err);
-        res.status(500).send('Internal Server Error');
-    }
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-app.get('/dash', (req, res) => {
-    try {
-        const indexPath = path.join(__dirname, 'dashboard.html');
-        const htmlContent = fs.readFileSync(indexPath, 'utf8');
-        res.send(htmlContent);
-    } catch (err) {
-        console.error("Error serving index.html:", err);
-        res.status(500).send('Internal Server Error');
-    }
+
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
-    
+
 app.listen(port, () => {
     console.log(`Server berjalan di http://localhost:${port}`);
 });
