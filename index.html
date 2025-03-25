@@ -1,210 +1,157 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Publik</title>
+    <title>Music Publik - 4D Super</title>
     <style>
-    @keyframes shine {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+        @keyframes shine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(45deg, #111, #222, #444, #222, #111);
-    background-size: 400% 400%;
-    animation: shine 10s infinite linear;
-    color: white;
-    text-align: center;
-    margin: 0;
-    padding: 20px;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font modern */
+            background: linear-gradient(45deg, #0a0a0a, #1c1c1c, #333333, #1c1c1c, #0a0a0a); /* Warna lebih gelap */
+            background-size: 400% 400%;
+            animation: shine 10s infinite linear;
+            color: #f0f0f0; /* Warna teks lebih terang */
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+        }
 
-header h1 {
-    font-size: 28px;
-    background: linear-gradient(90deg, #ff00ff, #ffcc00, #ff00ff);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
-}
+        header {
+            padding: 20px 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1); /* Garis bawah header */
+        }
 
-.music-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    max-width: 1000px;
-    margin: 20px auto;
-}
+        header h1 {
+            font-size: 36px; /* Ukuran font lebih besar */
+            background: linear-gradient(90deg, #ff00ff, #ffcc00, #ff00ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0px 0px 15px rgba(255, 255, 255, 0.6); /* Efek shadow lebih kuat */
+            letter-spacing: 1.5px; /* Jarak antar huruf */
+            text-transform: uppercase; /* Semua huruf kapital */
+        }
 
-.card {
-    background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-    border-radius: 15px;
-    padding: 15px;
-    box-shadow: 0px 0px 10px rgba(255, 0, 255, 0.5);
-    text-align: center;
-    transition: transform 0.3s ease-in-out;
-}
+        .music-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Lebar minimum kartu ditingkatkan */
+            gap: 30px; /* Gap lebih besar */
+            max-width: 1200px; /* Lebar maksimum ditingkatkan */
+            margin: 30px auto; /* Margin lebih besar */
+            padding: 20px; /* Padding ditambahkan */
+        }
 
-.card:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 0px 20px rgba(255, 204, 0, 0.7);
-}
+        .card {
+            background: linear-gradient(135deg, #111111, #222222); /* Warna kartu lebih gelap */
+            border-radius: 15px;
+            padding: 20px; /* Padding lebih besar */
+            box-shadow: 0px 0px 20px rgba(255, 0, 255, 0.4); /* Efek shadow lebih kuat */
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Transisi lebih halus */
+            overflow: hidden; /* Mencegah konten meluap */
+        }
 
-.card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-}
+        .card:hover {
+            transform: scale(1.07); /* Efek hover lebih besar */
+            box-shadow: 0px 0px 30px rgba(255, 204, 0, 0.6); /* Efek shadow hover lebih kuat */
+        }
 
-.card h2 {
-    font-size: 16px;
-    margin: 10px 0;
-}
+        .card img {
+            width: 100%;
+            height: 200px; /* Tinggi gambar ditingkatkan */
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px; /* Margin bawah ditambahkan */
+        }
 
-audio {
-    width: 100%;
-    margin-top: 10px;
-}
+        .card h2 {
+            font-size: 18px; /* Ukuran font judul ditingkatkan */
+            margin: 15px 0; /* Margin lebih besar */
+            color: #ffffff; /* Warna judul lebih terang */
+            text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); /* Efek shadow pada judul */
+        }
 
-.upload-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 20px;
-    background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-    border-radius: 15px;
-    box-shadow: 0px 0px 10px rgba(255, 0, 255, 0.5);
-}
+        audio {
+            width: 100%;
+            margin-top: 15px; /* Margin atas ditambahkan */
+            outline: none; /* Menghilangkan outline default pada audio player */
+        }
 
-input, button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-}
+        /* Gaya tambahan untuk efek 4D Super */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            width: 50vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            background: linear-gradient(to bottom, rgba(255,0,255,0.2), transparent);
+            animation: moveGradient 5s infinite alternate;
+        }
 
-button {
-    background: linear-gradient(90deg, #ff00ff, #ffcc00);
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-}
+        body::before {
+            left: 0;
+            transform: translateX(-10vw) skewX(-10deg);
+        }
 
-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.7);
-}
+        body::after {
+            right: 0;
+            transform: translateX(10vw) skewX(10deg);
+            background: linear-gradient(to bottom, rgba(255,204,0,0.2), transparent);
+        }
+
+        @keyframes moveGradient {
+            from { transform: translateX(-10vw) skewX(-10deg); }
+            to { transform: translateX(-5vw) skewX(-10deg); }
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Music Publik</h1>
+        <h1>Music Publik - 4D Super</h1>
     </header>
 
     <div class="music-container" id="musicList"></div>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const musicList = document.getElementById("musicList");
-
-    fetch('https://anonim-wanz-production.up.railway.app/api/music')
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(music => {
-                const card = document.createElement("div");
-                card.classList.add("card");
-
-                card.innerHTML = `
-                    <img src="${music.cover}" alt="Cover">
-                    <h2>${music.title}</h2>
-                    <audio controls src="${music.url}"></audio>
-                    <button onclick="deleteMusic('${music.title}')">Hapus</button>
-                `;
-
-                musicList.appendChild(card);
-            });
-        })
-        .catch(error => console.error('Error:', error));
-});
-
-async function uploadMusic() {
-    const title = document.getElementById("title").value;
-    const coverFile = document.getElementById("cover").files[0];
-    const musicUrl = document.getElementById("musicUrl").value;
-
-    if (!title || !musicUrl) {
-        alert("Judul dan URL lagu harus diisi!");
-        return;
-    }
-
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
-
-    try {
-        const coverBase64 = coverFile ? await toBase64(coverFile) : null;
-
-        const response = await fetch('https://anonim-wanz-production.up.railway.app/api/music', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title: title,
-                cover: coverBase64,
-                url: musicUrl
-            })
+        document.addEventListener("DOMContentLoaded", function () {
+            loadMusicList();
         });
 
-        if (response.ok) {
-            const result = await response.json();
-            alert(result.message);
-            window.location.reload();
-        } else {
-            const errorData = await response.json();
-            alert("Error: " + errorData.message)
+        async function loadMusicList() {
+            const musicList = document.getElementById("musicList");
+            musicList.innerHTML = ""; // Bersihkan konten sebelumnya
+
+            try {
+                const response = await fetch('/api/music');
+                const data = await response.json();
+
+                data.forEach(music => {
+                    const card = document.createElement("div");
+                    card.classList.add("card");
+
+                    card.innerHTML = `
+                        <img src="${music.cover}" alt="Cover">
+                        <h2>${music.title}</h2>
+                        <audio controls src="${music.url}"></audio>
+                    `;
+
+                    musicList.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                musicList.innerHTML = "<p>Gagal memuat daftar musik.</p>";
+            }
         }
-
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan saat mengunggah musik.');
-    }
-}
-
-async function deleteMusic(title) {
-    if (!confirm(`Apakah Anda yakin ingin menghapus musik "${title}"?`)) {
-        return;
-    }
-
-    try {
-        const response = await fetch(`https://anonim-wanz-production.up.railway.app/api/music/${title}`, {
-            method: 'DELETE',
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            alert(result.message);
-            window.location.reload();
-        } else {
-            const errorData = await response.json();
-             alert("Error: " + errorData.message);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan saat menghapus musik.');
-    }
-}
     </script>
 </body>
 </html>
