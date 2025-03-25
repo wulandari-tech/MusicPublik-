@@ -74,7 +74,7 @@ async function deleteMusic(title) {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/api/music/${title}`, {
+        const response = await fetch(`https://anonim-wanz-production.up.railway.app/api/music/${title}`, {
             method: 'DELETE',
         });
 
