@@ -135,7 +135,58 @@
     </script>
 
     <style>
-        #notification {
+        /* --- Styling Global --- */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        /* --- Form Upload Musik --- */
+        .upload-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 20px auto;
+        }
+
+        .upload-container input, 
+        .upload-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .upload-container button {
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .upload-container button:hover {
+            background: #218838;
+        }
+
+        /* --- Notifikasi --- */
+        .notification {
             position: fixed;
             top: 20px;
             left: 50%;
@@ -143,14 +194,67 @@
             padding: 10px;
             border-radius: 5px;
             color: white;
-            display: inline-block;
             font-weight: bold;
         }
+
         .success {
             background-color: green;
         }
+
         .error {
             background-color: red;
+        }
+
+        /* --- Daftar Musik (Grid) --- */
+        .music-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px; /* Ukuran seragam */
+            object-fit: cover; /* Memastikan gambar tidak terdistorsi */
+            border-radius: 8px;
+        }
+
+        .card h2 {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .card audio {
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        .card button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .card button:hover {
+            background: #c82333;
         }
     </style>
 </body>
